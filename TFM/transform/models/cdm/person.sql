@@ -27,7 +27,11 @@ person as (
         NULL::INT AS care_site_id,
         "EGA_id"::VARCHAR(50) AS person_source_value,
         "Sex"::VARCHAR(50) AS gender_source_value,
-        0 AS gender_source_concept_id
+        0::INT AS gender_source_concept_id,
+        NULL::VARCHAR(50) AS race_source_value,
+        0::INT AS race_source_concept_id,
+        NULL::VARCHAR(50) AS ethnicity_source_value,
+        0::INT AS ethnicity_source_concept_id
     from patients
     where "Age" is not null -- Don't load patients who do not have birthdate and sex (change variable names if necessary)
     and "Sex" is not null

@@ -2,23 +2,10 @@
 --    ~~ GENERAL ~~     --
 --------------------------
 
-
-
 -- Macro to create a bigint type ID from a string in absolute value
 {% macro create_id_from_str(text) %}
     abs(('x' || substr(md5({{ text }}), 1, 16))::bit(64)::bigint)
 {% endmacro %}
-
--- Macro to create a bigint type ID from a string in absolute value
-{% macro bigint_id_from_str(text) %}
-    abs(('x' || substr(md5({{ text }}), 1, 16))::bit(64)::bigint)
-{% endmacro %}
-
--- Macro to create a int type ID from a string in absolute value
-{% macro int_id_from_str(text) %}
-    abs(('x' || substr(md5({{ text }}),1,16))::bit(32)::int)
-{% endmacro %}
-
 
 -- OMOP TABLE: person
 --- Macro to transform 'M' and 'F' sex values into their concept_id
@@ -30,6 +17,8 @@
       END)
 {% endmacro %}
 
+-- OMOP TABLE: person
+--- Macro to calculate the year of birth from age
 {%macro calculate_year(age) %}
 (2014 - {{age}})
 {% endmacro %}

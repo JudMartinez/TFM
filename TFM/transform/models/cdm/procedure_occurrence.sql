@@ -2,30 +2,13 @@
 
 {{ config(
    materialized='table',
-   enabled=false
+   enabled=true
 )
 }}
 
 with procedures as (
 
     select * from {{ source('raw', 'procedures') }}
-
-),
-
-source_to_standard_vocab_map AS (
-
-    SELECT * FROM {{ ref('source_to_standard_vocab_map') }}
-    WHERE source_vocabulary_id = 'SNOMED'
-        AND source_domain_id = 'Procedure'
-        AND target_domain_id = 'Procedure'
-        AND target_standard_concept = 'S'
-        AND target_invalid_reason IS NULL
-
-),
-source_to_source_vocab_map AS (
-
-    SELECT * FROM {{ ref('source_to_source_vocab_map') }}
-    WHERE source_vocabulary_id  = 'SNOMED'
 
 ),
 
@@ -38,7 +21,7 @@ person AS (
 SELECT
     {{ create_id_from_str('"EGA_id"::text || "DATA_INGRES"::text || "pos_proc"::text ') }} AS procedure_occurrence_id,
     p.person_id AS person_id,
-    -- case when srctostdvm.target_concept_id is NULL then 0 else srctostdvm.target_concept_id end AS procedure_concept_id,
+    concept.concept_id AS procedure_concept_id,
     pr."DATA_INGRES"::DATE AS procedure_date,
     pr."DATA_INGRES"::timestamp AS procedure_datetime,
     NULL::date AS procedure_end_date,
@@ -49,15 +32,9 @@ SELECT
     null::bigint AS provider_id,
     {{ create_id_from_str('"EGA_id"::text || "DATA_INGRES"::text ')}} AS visit_occurrence_id,
     null::bigint AS visit_detail_id,
-    pr.code AS procedure_source_value,
-    case when srctosrcvm.target_concept_id is NULL then 0 else srctosrcvm.target_concept_id end AS procedure_source_concept_id,
+    pr."ICD10"::Varchar(50) AS procedure_source_value,
+    concept.concept_id AS procedure_source_concept_id,
     null::varchar(50) AS modifier_source_value
 from procedures pr
-left join source_to_standard_vocab_map srctostdvm
-    on srctostdvm.source_code = pr.code
-left join source_to_source_vocab_map srctosrcvm
-    on srctosrcvm.source_code = pr.code
-join final_visit_ids fv
-    on fv.encounter_id = pr.encounter
-join person p
-  on p.person_source_value = pr.patient
+join {{ source('vocabularies', 'concept') }} concept on pr."ICD10" = concept.concept_code
+join person p on pr."EGA_id" = p.person_source_value

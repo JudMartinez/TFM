@@ -10,3 +10,9 @@ sources:
     - name: procedures
     - name: episodes
     - name: external_cause
+  - name: vocabularies
+    database: datoscat_tfm
+    schema: vocabularies
+    tables:
+    - name: concept
+    - name: concept_relationship
