@@ -33,7 +33,7 @@ person as (
         NULL::VARCHAR(50) AS ethnicity_source_value,
         0::INT AS ethnicity_source_concept_id
     from patients
-    where "Age" is not null -- Don't load patients who do not have birthdate and sex (change variable names if necessary)
+    where "Age" is not null -- Don't load patients who do not have birthdate and sex
     and "Sex" is not null
     and rn = 1
 )
