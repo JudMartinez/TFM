@@ -19,9 +19,9 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
   dbms     = "postgresql", 
   server   = "localhost/datoscat_tfm", 
   user     = "postgres", 
-  password = Sys.getenv("password"), 
+  password = "cafe", 
   port     = 5432, 
-  pathToDriver = "Sys.getenv("path")  
+  pathToDriver = "/home/judith/.config/JetBrains/DataGrip2022.2/jdbc-drivers/PostgreSQL/42.6.0/org/postgresql/postgresql/42.6.0/"  
 )
 ```
 

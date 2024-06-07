@@ -21,9 +21,9 @@ library(dsOMOPHelper)
 ```{r}
 builder <- newDSLoginBuilder()
 builder$append(server= "tfm", 
-               url = Sys.getenv("url")", 
-               user = Sys.getenv("user"),
-               password = Sys.getenv("password"),
+               url = "https://172.17.0.1/repo/", 
+               user = "dsuser",
+               password = "DataSHIELD1234+",
                driver = "OpalDriver",
                options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
 
