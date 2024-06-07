@@ -1,0 +1,28 @@
+DBMS:
+postgresql
+
+Error:
+org.postgresql.util.PSQLException: ERROR: relation "cdm.cdm_source" does not exist
+  Position: 15
+
+SQL:
+select * from cdm.cdm_source;
+
+R version:
+R version 4.3.2 (2023-10-31)
+
+Platform:
+x86_64-pc-linux-gnu
+
+Attached base packages:
+- stats
+- graphics
+- grDevices
+- utils
+- datasets
+- methods
+- base
+
+Other attached packages:
+- DataQualityDashboard (2.6.0)
+- DatabaseConnector (6.3.2)

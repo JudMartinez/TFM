@@ -1,0 +1,12 @@
+# Folders
+.venv/
+backup/
+Readings/
+Data/
+Figures/ 
+Ontobridge_approach/ 
+MBDS_Master_Thesis/
+
+# Files
+TFM_MBDS_Judith.pdf 
+ACHILLES.R

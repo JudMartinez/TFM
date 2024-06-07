@@ -1,0 +1,82 @@
+---
+title: "DataAnalysis"
+output: html_document
+date: "2024-06-04"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Load packages
+```{r}
+library(DSI)
+library(DSOpal)
+library(dsBaseClient)
+library(dsOMOPHelper)
+```
+
+# Loading to the Opal server
+```{r}
+builder <- newDSLoginBuilder()
+builder$append(server= "tfm", 
+               url = Sys.getenv("url")", 
+               user = Sys.getenv("user"),
+               password = Sys.getenv("password"),
+               driver = "OpalDriver",
+               options = "list(ssl_verifyhost=0, ssl_verifypeer=0)")
+
+logindata <- builder$build()
+logindata
+```
+
+```{r}
+conns <- datashield.login(logins = logindata)
+```
+
+```{r}
+o <- ds.omop.helper(connections = conns,
+                    resource = "DATOS-CAT.datoscat_tfm", 
+                    symbol = "omop")
+```
+
+```{r}
+ds.summary("omop")
+```
+```{r}
+ds.summary("omop$year_of_birth")
+```
+```{r}
+ds.histogram("omop$year_of_birth")
+```
+```{r}
+ds.table("omop$gender_concept_id")
+```
+
+# OMOP CDM Tables available
+```{r}
+o$tables()
+```
+
+```{r}
+o$concepts("condition_occurrence")
+```
+
+```{r}
+o$auto(tables = c("condition_occurrence"),
+       concepts= c(320128))
+ds.summary("omop")
+```
+
+```{r}
+o$concepts("procedure_occurrence")
+```
+
+```{r}
+o$auto(tables = c("procedure_occurrence"),
+       concepts= c(2786055))
+
+ds.summary("omop")
+```
+

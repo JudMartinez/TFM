@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: raw 
+    database: datoscat_tfm
+    schema: raw
+    tables:
+    - name: patient
+    - name: diagnoses
+    - name: procedures
+    - name: episodes
+    - name: external_cause
+  - name: vocabularies
+    database: datoscat_tfm
+    schema: vocabularies
+    tables:
+    - name: concept
+    - name: concept_relationship
